@@ -7,27 +7,27 @@ import sys
 sys.path.append(os.path.realpath('.'))
 from models.base import Base
 from models.model import Model
-from models.passenger import Passenger
-from models.user import User
+from models.ticket import Ticket
 
-table_name = 'person'
+table_name = 'seat'
 
-class Person(Base, Model):
+class Seat(Base, Model):
     __tablename__ = table_name
-    id = Column(Integer, Sequence('person_id_seq'), primary_key=True)
+    id = Column(Integer, Sequence('seat_id_seq'), primary_key=True)
     name = Column(String(50))
-    document = Column(String(50))
-    passenger = relationship(Passenger, backref='person')
-    user = relationship(User, backref='person')
+    number = Column(Integer)
+    vehicle_type_id = Column(Integer, ForeignKey('vehicle_type.id'))
+    transit = relationship(Ticket, backref='seat')
     created_at = Column(DateTime)
 
-    def __init__(self, name:str, document:str):
+    def __init__(self, name:str, number:int, vehicle_type_id:int):
         self.name = name
-        self.document = document
+        self.number = number
+        self.vehicle_type_id = vehicle_type_id
         self.created_at = datetime.now()
 
     def __repr__(self):
-        return "<Person(name='%s', document='%s')>" % (self.name, self.document)
+        return "<Seat(name='%s', number='%s')>" % (self.name, self.number)
 
     def add(self, session):
         session.add(self)

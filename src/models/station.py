@@ -1,27 +1,29 @@
 from sqlalchemy import Column, Integer, String, DateTime, Sequence, ForeignKey
 from sqlalchemy.orm import relationship
+from typing import Dict
 from datetime import datetime
 import os
 import sys
 sys.path.append(os.path.realpath('.'))
 from models.base import Base
-from models.ticket import Ticket
+from models.model import Model
+from models.span import Span
+from models.route import Route
 
-table_name = 'passenger'
+table_name = 'station'
 
-class Passenger(Base):
+class Station(Base, Model):
     __tablename__ = table_name
-    id = Column(Integer, Sequence('passenger_id_seq'), primary_key=True)
-    person_id = Column(Integer, ForeignKey('person.id'))
+    id = Column(Integer, Sequence('station_id_seq'), primary_key=True)
+    name = Column(String(50))
     created_at = Column(DateTime)
-    ticket = relationship(Ticket, backref='passenger')
 
-    def __init__(self, person_id:id):
-        self.person_id = person_id
+    def __init__(self, name:str):
+        self.name = name
         self.created_at = datetime.now()
 
     def __repr__(self):
-        return "<Passenger(person_id='%s')>" % (self.person_id)
+        return "<Station(name='%s')>" % (self.name)
 
     def add(self, session):
         session.add(self)

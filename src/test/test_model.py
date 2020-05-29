@@ -10,8 +10,19 @@ except ModuleNotFoundError:
 
 from database import Database
 from models.base import Base
-from models.person import Person
+from models.booking import Booking
 from models.passenger import Passenger
+from models.person import Person
+from models.route import Route
+from models.seat import Seat
+from models.span import Span
+from models.station import Station
+from models.ticket import Ticket
+from models.transit import Transit
+from models.user import User
+from models.vehicle_type import VehicleType
+from models.vehicle import Vehicle
+
 
 test_db = Database(db_type='test')
 engine = test_db.create_engine()
