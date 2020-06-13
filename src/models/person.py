@@ -34,3 +34,4 @@ class Person(Base, Model):
         session.commit()
         print(table_name, ' ', self.id, ' created')
         return self.id
+        

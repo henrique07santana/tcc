@@ -13,11 +13,13 @@ class Passenger(Base):
     __tablename__ = table_name
     id = Column(Integer, Sequence('passenger_id_seq'), primary_key=True)
     person_id = Column(Integer, ForeignKey('person.id'))
+    phone_number = Column(String(50))
     created_at = Column(DateTime)
     ticket = relationship(Ticket, backref='passenger')
 
-    def __init__(self, person_id:id):
+    def __init__(self, person_id:id, phone_number:str):
         self.person_id = person_id
+        self.phone_number = phone_number
         self.created_at = datetime.now()
 
     def __repr__(self):

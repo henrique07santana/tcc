@@ -1,7 +1,8 @@
 from typing import Dict
+from sqlalchemy import and_
 
-class Model:
-
+class Model:    
+    """id tem que ser implementado quando herdado"""
     @classmethod
     def get(cls, session, id:int):
         result = session.query(cls).filter(cls.id == id).first()
@@ -17,3 +18,12 @@ class Model:
     def delete(cls, session, id:int):
         session.query(cls).filter(cls.id==id).delete()
         session.commit()
+
+    @classmethod
+    def filter(cls, session, **kwargs):
+        filters = kwargs
+        query = session.query(cls)
+        for attr,value in filters.items():
+            query = query.filter( getattr(cls,attr)==value)
+        result = query.first()
+        return result
